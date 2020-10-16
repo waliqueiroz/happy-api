@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpStatus;
 
 import br.com.happy.dto.OrphanageDto;
+import br.com.happy.dto.OrphanageResponseDto;
 import br.com.happy.model.Orphanage;
 import br.com.happy.service.OrphanageService;
 
@@ -26,25 +29,30 @@ public class OrphanageController {
     private OrphanageService orphanageService;
 
     @GetMapping
-    public List<Orphanage> index() {
-        return orphanageService.index();
+    public List<OrphanageResponseDto> index() {
+        List<Orphanage> orphanages = orphanageService.index();
+        return OrphanageResponseDto.parseMany(orphanages);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = { "multipart/form-data" })
-    public Orphanage create(@ModelAttribute OrphanageDto orphanageDto) {
+    public OrphanageResponseDto create(@ModelAttribute OrphanageDto orphanageDto) {
         Orphanage orphanage = orphanageDto.getOrphanage();
         MultipartFile[] imageFiles = orphanageDto.getImages();
-        return orphanageService.create(orphanage, imageFiles);
+        Orphanage entity = orphanageService.create(orphanage, imageFiles);
+        return OrphanageResponseDto.parse(entity);
     }
 
     @GetMapping("/{id}")
-    public Orphanage show(@PathVariable Long id) {
-        return orphanageService.show(id);
+    public OrphanageResponseDto show(@PathVariable Long id) {
+        Orphanage entity = orphanageService.show(id);
+        return OrphanageResponseDto.parse(entity);
     }
 
     @PutMapping("/{id}")
-    public Orphanage update(@PathVariable Long id, @RequestBody Orphanage orphanage) {
-        return orphanageService.update(id, orphanage);
+    public OrphanageResponseDto update(@PathVariable Long id, @RequestBody Orphanage orphanage) {
+        Orphanage entity = orphanageService.update(id, orphanage);
+        return OrphanageResponseDto.parse(entity);
     }
 
     @DeleteMapping("/{id}")

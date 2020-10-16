@@ -40,6 +40,7 @@ public class FileStorageService {
             }
             
             filename = new Date().getTime() + "-" + filename;
+            filename = filename.replaceAll("\\s+","");
             // mexer aqui para mudar local de armazenamento
             Path targetLocation = this.fileStorageLocation.resolve(filename);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
