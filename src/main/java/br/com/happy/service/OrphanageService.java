@@ -31,10 +31,7 @@ public class OrphanageService {
         List<Image> images = Arrays.asList(imageFiles).stream().map(file -> {
             String filename = fileStorageService.storeFile(file);
 
-            Image image = new Image();
-            image.setPath(filename);
-            image.setOrphanage(orphanage);
-            return image;
+            return new Image(filename, orphanage);
         }).collect(Collectors.toList());
 
         orphanage.setImages(images);

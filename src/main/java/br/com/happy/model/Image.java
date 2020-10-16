@@ -33,6 +33,15 @@ public class Image extends BaseEntity {
     @JoinColumn(name = "orphanage_id", nullable = false)
     private Orphanage orphanage;
 
+
+    public Image() {
+    }
+
+    public Image(String path, Orphanage orphanage) {
+        this.path = path;
+        this.orphanage = orphanage;
+    }
+
     public Long getId() {
         return this.id;
     }
