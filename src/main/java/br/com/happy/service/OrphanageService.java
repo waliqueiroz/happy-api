@@ -1,10 +1,12 @@
 package br.com.happy.service;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.happy.exception.ResourceNotFoundException;
 import br.com.happy.model.Image;
@@ -17,16 +19,26 @@ public class OrphanageService {
     @Autowired
     private OrphanageRepository orphanageRepository;
 
+    @Autowired
+    private FileStorageService fileStorageService;
+
     public List<Orphanage> index() {
         return orphanageRepository.findAll();
     }
 
-    public Orphanage create(Orphanage orphanage) {
-        Image image = new Image();
-        image.setPath("path");
-        image.setOrphanage(orphanage);
+    public Orphanage create(Orphanage orphanage, MultipartFile[] imageFiles) {
 
-        orphanage.setImages(Collections.singletonList(image));
+        List<Image> images = Arrays.asList(imageFiles).stream().map(file -> {
+            String filename = fileStorageService.storeFile(file);
+
+            Image image = new Image();
+            image.setPath(filename);
+            image.setOrphanage(orphanage);
+            return image;
+        }).collect(Collectors.toList());
+
+        orphanage.setImages(images);
+
         return orphanageRepository.save(orphanage);
     }
 

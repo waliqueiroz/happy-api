@@ -52,6 +52,19 @@ public class Orphanage extends BaseEntity {
     @OneToMany(mappedBy = "orphanage", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Image> images;
 
+    public Orphanage() {
+    }
+
+    public Orphanage(String name, BigDecimal latitude, BigDecimal longitude, String about, String instructions, String openingHours, Boolean openOnWeekends) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.about = about;
+        this.instructions = instructions;
+        this.openingHours = openingHours;
+        this.openOnWeekends = openOnWeekends;
+    }
+
     public Long getId() {
         return this.id;
     }
