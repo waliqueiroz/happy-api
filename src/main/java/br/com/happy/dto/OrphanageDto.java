@@ -3,6 +3,9 @@ package br.com.happy.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.happy.model.Orphanage;
@@ -11,20 +14,28 @@ public class OrphanageDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty
     private String name;
-
+    
+    @NotNull
     private BigDecimal latitude;
-
+    
+    @NotNull
     private BigDecimal longitude;
-
+    
+    @NotEmpty
     private String about;
-
+    
+    @NotEmpty
     private String instructions;
-
+    
+    @NotEmpty
     private String openingHours;
-
+    
+    @NotNull
     private Boolean openOnWeekends;
-
+    
+    @NotEmpty
     private MultipartFile[] images;
 
     public Orphanage getOrphanage() {

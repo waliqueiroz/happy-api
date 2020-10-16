@@ -2,6 +2,8 @@ package br.com.happy.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +38,7 @@ public class OrphanageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = { "multipart/form-data" })
-    public OrphanageResponseDto create(@ModelAttribute OrphanageDto orphanageDto) {
+    public OrphanageResponseDto create(@Valid @ModelAttribute OrphanageDto orphanageDto) {
         Orphanage orphanage = orphanageDto.getOrphanage();
         MultipartFile[] imageFiles = orphanageDto.getImages();
         Orphanage entity = orphanageService.create(orphanage, imageFiles);
