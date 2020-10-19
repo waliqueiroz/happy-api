@@ -4,8 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import br.com.happy.model.Orphanage;
 
+@JsonPropertyOrder({ "id", "name", "latitude", "longitude", "about", "instructions", "opening_hours",
+        "open_on_weekends", "images" })
 public class OrphanageResponseDto {
     private Long id;
 
@@ -19,8 +24,10 @@ public class OrphanageResponseDto {
 
     private String instructions;
 
+    @JsonProperty("opening_hours")
     private String openingHours;
 
+    @JsonProperty("open_on_weekends")
     private Boolean openOnWeekends;
 
     private List<ImageResponseDto> images;
